@@ -1,7 +1,7 @@
 import streamlit as st
 import pandas as pd
 from src.auth import require_auth
-from src.parsers.security-portal import parse_esentire_csv
+from src.parsers.security-portal import parse_mdr_csv
 
 require_auth()
 
@@ -16,7 +16,7 @@ if uploaded_file is not None:
     # Adding a safety check before parsing
     if st.button("Parse to Database", type="primary"):
         with st.spinner("Processing CSV payload..."):
-            success, msg = parse_esentire_csv(uploaded_file)
+            success, msg = parse_mdr_csv(uploaded_file)
             
             if success:
                 st.success(msg)

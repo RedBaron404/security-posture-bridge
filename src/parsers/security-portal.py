@@ -1,7 +1,7 @@
 import pandas as pd
 from src.db import upsert_metric_by_date, recalculate_pulse_scores
 
-def parse_esentire_csv(file_buffer):
+def parse_mdr_csv(file_buffer):
     """
     Parses an Security-Portal Atlas CSV export.
     Expects columns indicating alert timestamps and severity.
@@ -22,7 +22,7 @@ def parse_esentire_csv(file_buffer):
         
         records_processed = 0
         for index, row in daily_counts.iterrows():
-            upsert_metric_by_date(row[date_col], 'esentire_active_incidents', int(row['incident_count']))
+            upsert_metric_by_date(row[date_col], 'mdr_active_incidents', int(row['incident_count']))
             records_processed += 1
             
         recalculate_pulse_scores()

@@ -49,7 +49,7 @@ if not st.session_state["authenticated"]:
 
 overview_page = st.Page("pages/1_overview.py", title="Executive Overview", icon="🏠", default=True)
 knowbe4_page = st.Page("pages/2_knowbe4.py", title="Phishing-Training Dashboard", icon="🎣")
-esentire_page = st.Page("pages/3_esentire.py", title="Security-Portal MDR Dashboard", icon="🛡️")
+mdr_page = st.Page("pages/3_mdr-portal.py", title="Security-Portal MDR Dashboard", icon="🛡️")
 google_page = st.Page("pages/4_google.py", title="Google Workspace Security", icon="📧")
 incident_page = st.Page("pages/5_incident_logger.py", title="Incident Logger & Parser", icon="📝")
 
@@ -57,7 +57,7 @@ incident_page = st.Page("pages/5_incident_logger.py", title="Incident Logger & P
 pg = st.navigation(
     {
         "DASHBOARDS": [overview_page],
-        "SOURCE INTEGRATIONS": [knowbe4_page, esentire_page, google_page],
+        "SOURCE INTEGRATIONS": [knowbe4_page, mdr_page, google_page],
         "TOOLS": [incident_page]
     }
 )

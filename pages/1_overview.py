@@ -19,12 +19,12 @@ else:
     latest_data = all_trends_df.iloc[-1]
     
     live_ppp = latest_data.get("knowbe4_ppp", 0)
-    live_esentire = latest_data.get("esentire_active_incidents", 0)
+    live_mdr = latest_data.get("mdr_active_incidents", 0)
     live_google = latest_data.get("google_alerts_24h", 0)
     
     # Calculation Logic
     human_score = min(live_ppp * 2, 100)
-    mdr_score = min(live_esentire * 10, 100)
+    mdr_score = min(live_mdr * 10, 100)
     admin_score = min(live_google * 2, 100)
     
     # Use the pre-calculated pulse_score if it exists, otherwise calculate it
@@ -47,7 +47,7 @@ else:
         st.markdown(f"### Executive Summary (As of {latest_data['timestamp'].strftime('%Y-%m-%d')})")
         m1, m2, m3 = st.columns(3)
         m1.metric("Avg. Phish Susceptibility", f"{live_ppp}%")
-        m2.metric("Active Security-Portal Incidents", live_esentire)
+        m2.metric("Active Security-Portal Incidents", live_mdr)
         m3.metric("Workspace Alerts", live_google)
 
 st.divider()

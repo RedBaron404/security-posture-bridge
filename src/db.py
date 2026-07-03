@@ -25,7 +25,7 @@ def init_db():
                 timestamp DATETIME,
                 pulse_score REAL DEFAULT 0,
                 knowbe4_ppp REAL DEFAULT 0,
-                esentire_active_incidents INTEGER DEFAULT 0,
+                mdr_active_incidents INTEGER DEFAULT 0,
                 google_alerts_24h INTEGER DEFAULT 0
             )
         ''')
@@ -46,7 +46,7 @@ def init_db():
 def upsert_metric_by_date(date_obj, vendor_col, value):
     """
     Inserts or updates a specific vendor metric for a given date.
-    vendor_col must be one of: 'knowbe4_ppp', 'esentire_active_incidents', 'google_alerts_24h'
+    vendor_col must be one of: 'knowbe4_ppp', 'mdr_active_incidents', 'google_alerts_24h'
     """
     date_str = date_obj.strftime("%Y-%m-%d")
     timestamp_val = pd.to_datetime(date_str)
@@ -71,11 +71,11 @@ def recalculate_pulse_scores():
         
         if not df.empty:
             # Forward fill 0s with previous actual values to create a contiguous trend if some CSVs skip days
-            df[['knowbe4_ppp', 'esentire_active_incidents', 'google_alerts_24h']] = df[['knowbe4_ppp', 'esentire_active_incidents', 'google_alerts_24h']].replace(0, pd.NA).ffill().fillna(0)
+            df[['knowbe4_ppp', 'mdr_active_incidents', 'google_alerts_24h']] = df[['knowbe4_ppp', 'mdr_active_incidents', 'google_alerts_24h']].replace(0, pd.NA).ffill().fillna(0)
             
             for index, row in df.iterrows():
                 human_score = min(row['knowbe4_ppp'] * 2, 100)
-                mdr_score = min(row['esentire_active_incidents'] * 10, 100)
+                mdr_score = min(row['mdr_active_incidents'] * 10, 100)
                 admin_score = min(row['google_alerts_24h'] * 2, 100)
                 
                 pulse = (human_score * 0.35) + (mdr_score * 0.40) + (admin_score * 0.25)
